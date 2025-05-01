@@ -12,17 +12,20 @@ const savingsRoutes = require('./routes/savingsRoutes'); // Add this line
 
 const app = express();
 
+// CORS Configuration: Allow both localhost and deployed frontend
 app.use(cors({
-    origin: "http://localhost:3000",  // Allow frontend from localhost:3000
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
-  }));
+  origin: ["http://localhost:3000", "https://personal-finance-app-tawny.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB Connected'))
   .catch(err => console.log('❌ DB Connection Error:', err));
 
+// Register Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/goals', goalRoutes);
